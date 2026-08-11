@@ -1,0 +1,53 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { api } from "../api/client";
+import { PlanCard } from "../components/PlanCard";
+import { Loading } from "../components/Loading";
+import { useInvitation } from "../hooks/useInvitation";
+import { Shell } from "../layouts/Shell";
+import { useDraft } from "../stores/draft";
+import { displayName } from "../utils/names";
+export function GuestReview() {
+  const { guestToken = "" } = useParams();
+  const nav = useNavigate();
+  const { data, error } = useInvitation("guest", guestToken);
+  const { draft, reset } = useDraft();
+  const [busy, setBusy] = useState(false);
+  async function send() {
+    setBusy(true);
+    await api.propose("guest", guestToken, draft);
+    reset();
+    nav(`/invite/${guestToken}`);
+  }
+  if (error)
+    return (
+      <Shell privatePage wallpaper="review">
+        <div className="error">{error}</div>
+      </Shell>
+    );
+  if (!data)
+    return (
+      <Shell privatePage wallpaper="review">
+        <Loading />
+      </Shell>
+    );
+  const host = displayName(data, "host");
+  return (
+    <Shell privatePage wallpaper="review">
+      <section className="card">
+        <PlanCard plan={draft} invite={data} />
+        <div className="row">
+          <button
+            className="btn secondary"
+            onClick={() => nav(`/invite/${guestToken}/build`)}
+          >
+            EDIT PLAN
+          </button>
+          <button className="btn primary" disabled={busy} onClick={send}>
+            {busy ? "Sending…" : `SEND TO ${host.toUpperCase()} ✨`}
+          </button>
+        </div>
+      </section>
+    </Shell>
+  );
+}

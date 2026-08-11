@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "LET'S MEET",
+  "short_name": "Let's Meet",
+  "description": "Private plans for two people.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff9f2",
+  "theme_color": "#172036",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+export type Activity = {
+  activity_type: string;
+  title: string;
+  location_name?: string;
+  address?: string;
+  duration_minutes?: number;
+  notes?: string;
+  external_url?: string;
+};
+export type Restaurant = {
+  name: string;
+  address?: string;
+  cuisine?: string;
+  price?: string;
+  menu_url?: string;
+  website_url?: string;
+  notes?: string;
+};
+export type Draft = {
+  meeting_date?: string;
+  meeting_time?: string;
+  duration_minutes?: number;
+  mood?: string;
+  budget?: string;
+  meal_type?: string;
+  food_choice?: string;
+  food_choices?: string[];
+  cooking_by_host: boolean;
+  custom_food_request?: string;
+  host_cooking_request?: string;
+  bring_request?: string;
+  custom_bring_request?: string;
+  meetup_name?: string;
+  meetup_address?: string;
+  meetup_latitude?: number;
+  meetup_longitude?: number;
+  notes?: string;
+  revive_cancelled_plan?: boolean;
+  revive_plan_details?: string;
+  restaurant?: Restaurant;
+  activities: Activity[];
+};
+export type Proposal = Draft & {
+  id: string;
+  version: number;
+  created_by_role: "guest" | "host";
+  created_at: string;
+};
+export type Invitation = {
+  host_name: string;
+  host_nickname?: string;
+  guest_name: string;
+  guest_nickname?: string;
+  personal_note?: string;
+  status: string;
+  current_version: number;
+  confirmed_version?: number;
+  expires_at: string;
+  current_proposal?: Proposal;
+};

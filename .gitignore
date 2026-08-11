@@ -1,0 +1,17 @@
+.DS_Store
+.env
+*.db
+*.sqlite3
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+backend/.venv/
+backend/vapid_private.pem
+backend/private_key.pem
+backend/public_key.pem
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+coverage/
