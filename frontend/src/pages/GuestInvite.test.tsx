@@ -17,7 +17,7 @@ test("renders nicknames and retires the no button after six playful escapes", as
   } as any);
   const user = userEvent.setup();
   render(
-    <MemoryRouter initialEntries={["/invite/token"]}>
+    <MemoryRouter initialEntries={["/invite/test_token_that_matches_a_real_private_link_123"]}>
       <Routes>
         <Route path="/invite/:guestToken" element={<GuestInvite />} />
       </Routes>
@@ -34,7 +34,7 @@ test("renders nicknames and retires the no button after six playful escapes", as
   }
   await user.click(no);
   expect(
-    await screen.findByText(/you have to meet Buddy/i),
+    await screen.findByText(/zero pressure, zero drama/i),
   ).toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "NO 🙄" })).toBeNull();
 });

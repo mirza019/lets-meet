@@ -7,6 +7,7 @@ import { PushNotifications } from "../components/PushNotifications";
 import { useInvitation } from "../hooks/useInvitation";
 import { Shell } from "../layouts/Shell";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 export function RoleReview({ role }: { role: "host" | "guest" }) {
   const params = useParams();
   const token = (role === "host" ? params.hostToken : params.guestToken) || "";
@@ -24,7 +25,7 @@ export function RoleReview({ role }: { role: "host" | "guest" }) {
   if (error)
     return (
       <Shell privatePage wallpaper="review">
-        <div className="card error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)
@@ -63,7 +64,7 @@ export function RoleReview({ role }: { role: "host" | "guest" }) {
             ? "The confirmed version stays active until both people accept any requested change."
             : role === "host"
               ? `${guest} built a suspiciously organized meetup. Your approval is requested.`
-              : `${host} adjusted the plan. Bold move—review the evidence.`}
+              : `${host} adjusted the plan. Cheeky move—review the evidence.`}
         </p>
         <PushNotifications role={role} token={token} />
         <PlanCard plan={data.current_proposal} invite={data} />

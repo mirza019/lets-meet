@@ -6,6 +6,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 backend/.venv/
+backend/static/
 backend/vapid_private.pem
 backend/private_key.pem
 backend/public_key.pem

@@ -10,10 +10,11 @@ import { PlanCard } from "../components/PlanCard";
 import { Confirmed } from "./Confirmed";
 import { RoleReview } from "./RoleReview";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 export function GuestInvite() {
   const { guestToken = "" } = useParams();
   const nav = useNavigate();
-  const { data, error } = useInvitation("guest", guestToken);
+  const { data, error, reload } = useInvitation("guest", guestToken);
   const [tries, setTries] = useState(0);
   const [pos, setPos] = useState<{ left: number; top: number }>();
   const [noVisible, setNoVisible] = useState(true);
@@ -44,10 +45,7 @@ export function GuestInvite() {
   if (error)
     return (
       <Shell privatePage>
-        <div className="card">
-          <h1 className="title">A plot twist.</h1>
-          <p className="error">{error}</p>
-        </div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)
@@ -98,10 +96,11 @@ export function GuestInvite() {
         <p className="eyebrow">A private invitation</p>
         <h1 className="title">Hey {guest} 👀</h1>
         <p className="subtitle">
-          Wanna meet <strong>{host}</strong>?
+          Fancy a suspiciously fun little meetup with <strong>{host}</strong>?
           <br />
           <br />
-          Apparently {host} has a booking system now. Very official. 🙄
+          Not a romantic declaration—just two people, one suspicious calendar,
+          and enough playful tension to make choosing snacks unnecessarily serious. 👀
         </p>
         {data.personal_note && (
           <blockquote className="note">“{data.personal_note}”</blockquote>
@@ -137,7 +136,7 @@ export function GuestInvite() {
             style={{ minHeight: 24, textAlign: "center" }}
           >
             {tries >= 6
-              ? `${guest}, nice try. You have no option now—you have to meet ${host}. The booking system has spoken. 😏`
+              ? `Okay ${guest}, the NO button has retired dramatically. If you truly mean no, you can close this page—zero pressure, zero drama. 🙂`
               : copy.noMessages[(tries - 1) % copy.noMessages.length]}
           </p>
         )}

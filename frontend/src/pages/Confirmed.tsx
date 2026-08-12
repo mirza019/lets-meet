@@ -5,14 +5,15 @@ import { PushNotifications } from "../components/PushNotifications";
 import { useInvitation } from "../hooks/useInvitation";
 import { Shell } from "../layouts/Shell";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 export function Confirmed({ role }: { role: "host" | "guest" }) {
   const p = useParams();
   const token = (role === "host" ? p.hostToken : p.guestToken) || "";
-  const { data, error } = useInvitation(role, token);
+  const { data, error, reload } = useInvitation(role, token);
   if (error)
     return (
       <Shell privatePage wallpaper="meet">
-        <div className="error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)
@@ -27,8 +28,8 @@ export function Confirmed({ role }: { role: "host" | "guest" }) {
     <Shell privatePage wallpaper="meet">
       <section className="card">
         <div className="confetti">🤝✨</div>
-        <p className="eyebrow">Appointment confirmed</p>
-        <h1 className="title">WE HAVE A DEAL</h1>
+        <p className="eyebrow">Suspiciously cute plan confirmed</p>
+        <h1 className="title">THE ALIBI IS READY</h1>
         <p className="subtitle">
           {guest} ✅<br />
           {host} ✅<br />
@@ -40,7 +41,7 @@ export function Confirmed({ role }: { role: "host" | "guest" }) {
           <PlanCard plan={data.current_proposal} invite={data} />
         )}
         <p className="muted">
-          Officially a meetup. Unofficially, excellent planning. 😏
+          Officially a meetup. Unofficially, a very cute logistical victory. 👀
         </p>
         <div className="stack">
           <Link

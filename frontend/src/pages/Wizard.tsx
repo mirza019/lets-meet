@@ -10,6 +10,7 @@ import { useDraft } from "../stores/draft";
 import { MeetMap } from "../features/maps/MeetMap";
 import type { Activity } from "../types";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 const steps = [
   "date",
   "time",
@@ -72,14 +73,17 @@ const extraActivities = [
 export function Wizard() {
   const { guestToken = "" } = useParams();
   const nav = useNavigate();
-  const { data, error } = useInvitation("guest", guestToken);
+  const { data, error, reload } = useInvitation("guest", guestToken);
   const { draft, set } = useDraft();
   const [index, setIndex] = useState(0);
   const step = steps[index];
   const host = data ? displayName(data, "host") : "them";
   const choose = (key: string, value: any) => set({ [key]: value });
-  const addActivity = (title: string) => {
-    if (draft.activities.some((activity) => activity.title === title)) return;
+  const toggleActivity = (title: string) => {
+    if (draft.activities.some((activity) => activity.title === title)) {
+      set({ activities: draft.activities.filter((activity) => activity.title !== title) });
+      return;
+    }
     set({
       activities: [
         ...draft.activities,
@@ -102,7 +106,7 @@ export function Wizard() {
   if (error)
     return (
       <Shell privatePage wallpaper="planning">
-        <div className="card error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)
@@ -119,7 +123,7 @@ export function Wizard() {
     <Shell privatePage wallpaper="planning">
       <section className="card">
         <p className="eyebrow">
-          Building trouble · {index + 1}/{steps.length}
+          Planning suspiciously cute trouble · {index + 1}/{steps.length}
         </p>
         <div className="progress">
           <span style={{ width: `${((index + 1) / steps.length) * 100}%` }} />
@@ -136,7 +140,7 @@ export function Wizard() {
               host={host}
               draft={draft}
               choose={choose}
-              addActivity={addActivity}
+              addActivity={toggleActivity}
               remove={remove}
               moveActivity={moveActivity}
             />
@@ -222,7 +226,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          When can {host} borrow your excellent company? 👀
+          When can {host} borrow your elite planning skills? 👀
         </h1>
         <div className="choices">
           {dates.map(([v, l]) => (
@@ -249,7 +253,7 @@ function StepView({
   if (step === "time")
     return (
       <>
-        <h1 className="title">When should {host} clear the schedule? 😏</h1>
+        <h1 className="title">When should {host} make room for this tiny adventure? 👀</h1>
         <div className="choices">
           {[
             ["09:00", "Morning"],
@@ -279,7 +283,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          How much time does {host} get? Be generous-ish. 😌
+          How long does {host} get? Be generous-ish. 😌
         </h1>
         <div className="field">
           <label>Choose duration</label>
@@ -308,7 +312,10 @@ function StepView({
   if (step === "activity")
     return (
       <>
-        <h1 className="title">What's this “appointment” about? 👀</h1>
+        <h1 className="title">What kind of trouble are you planning for {host}? 👀</h1>
+        <p className="subtitle">
+          Pick every suspiciously cute idea you like. Changed your mind? Tap it again to unselect.
+        </p>
         <div className="choices">
           {options.activity.map(([v, l]) => (
             <Choice
@@ -343,13 +350,13 @@ function StepView({
     if (!food)
       return (
         <>
-          <h1 className="title">Food can wait.</h1>
-          <p className="subtitle">A bold choice. We respect it.</p>
+          <h1 className="title">No snacks for {host}? Bold. 👀</h1>
+          <p className="subtitle">A fearless choice. We respect the confidence.</p>
         </>
       );
     return (
       <>
-        <h1 className="title">Important business: what are we eating? 🍜</h1>
+        <h1 className="title">Important business: what are you feeding {host}? 🍜</h1>
         {draft.meeting_time && (
           <p className="subtitle">
             Based on {draft.meeting_time}, <strong>{draft.meal_type}</strong> is
@@ -542,7 +549,7 @@ function StepView({
       <>
         <h1 className="title">Should {host} bring something too?</h1>
         <p className="subtitle">
-          Their excellent timing is already included. 😏
+          Their excellent timing is already included. Allegedly. 👀
         </p>
         <div className="choices">
           {options.bring.map(([v, l]) => (
@@ -572,7 +579,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          How much human interaction on the meeting day? 😂
+          What vibe are you bringing for {host}? 😂
         </h1>
         <div className="choices">
           {options[step].map(([v, l]) => (
@@ -594,7 +601,7 @@ function StepView({
   if (step === "location")
     return (
       <>
-        <h1 className="title">Where should {host} report for duty? 🫡</h1>
+        <h1 className="title">Where should {host} report for fun duty? 🫡</h1>
         <div className="field">
           <label>Place name</label>
           <input
@@ -620,7 +627,8 @@ function StepView({
     );
   return (
     <>
-      <h1 className="title">Dinner is over. Keep hanging out? 😏</h1>
+      <h1 className="title">{host} survived the food mission. What’s next? 👀</h1>
+      <p className="subtitle">Tap to add. Tap again to remove. Commitment level: snack-sized.</p>
       <div className="choices">
         {extraActivities.map((v) => (
           <Choice
