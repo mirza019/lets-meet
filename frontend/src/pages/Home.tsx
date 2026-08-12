@@ -116,7 +116,9 @@ export function Home() {
             <aside className="how-it-works" aria-label="How Let's Meet works">
               <strong>Someone wants to meet you? Here’s the plot:</strong>
               <ol>
-                <li>Enter your name and the name of the person you want to meet.</li>
+                <li>
+                  Enter your name and the name of the person who wants to meet you.
+                </li>
                 <li>They receive a private link and build the meetup plan.</li>
                 <li>You get their plan, review it, and approve the final meetup.</li>
               </ol>
