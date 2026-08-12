@@ -6,6 +6,7 @@ import { Loading } from "../components/Loading";
 import { useInvitation } from "../hooks/useInvitation";
 import { Shell } from "../layouts/Shell";
 import type { Draft } from "../types";
+import { RecoveryError } from "../components/RecoveryError";
 const activityChoices = [
   "Food",
   "Coffee",
@@ -27,7 +28,7 @@ export function Negotiate({ role }: { role: "host" | "guest" }) {
   const params = useParams();
   const token = (role === "host" ? params.hostToken : params.guestToken) || "";
   const nav = useNavigate();
-  const { data, error } = useInvitation(role, token);
+  const { data, error, reload } = useInvitation(role, token);
   const [draft, setDraft] = useState<Draft>();
   const plan = draft || data?.current_proposal;
   async function submit() {
@@ -38,7 +39,7 @@ export function Negotiate({ role }: { role: "host" | "guest" }) {
   if (error)
     return (
       <Shell privatePage>
-        <div className="error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data || !plan)

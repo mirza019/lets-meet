@@ -5,14 +5,15 @@ import { PushNotifications } from "../components/PushNotifications";
 import { useInvitation } from "../hooks/useInvitation";
 import { Shell } from "../layouts/Shell";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 export function Confirmed({ role }: { role: "host" | "guest" }) {
   const p = useParams();
   const token = (role === "host" ? p.hostToken : p.guestToken) || "";
-  const { data, error } = useInvitation(role, token);
+  const { data, error, reload } = useInvitation(role, token);
   if (error)
     return (
       <Shell privatePage wallpaper="meet">
-        <div className="error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)

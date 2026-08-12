@@ -378,6 +378,22 @@ button {
   padding: 14px;
   border-radius: 15px;
 }
+.recovery-error .title {
+  font-size: clamp(2.2rem, 6vw, 4rem);
+}
+.recovery-help {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid rgba(237, 100, 133, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 250, 247, 0.86);
+}
+.recovery-help ul {
+  margin: 9px 0 0;
+  padding-left: 1.25rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
 .no-playground {
   position: relative;
   min-height: 170px;

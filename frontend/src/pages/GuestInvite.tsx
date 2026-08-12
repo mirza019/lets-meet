@@ -10,10 +10,11 @@ import { PlanCard } from "../components/PlanCard";
 import { Confirmed } from "./Confirmed";
 import { RoleReview } from "./RoleReview";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 export function GuestInvite() {
   const { guestToken = "" } = useParams();
   const nav = useNavigate();
-  const { data, error } = useInvitation("guest", guestToken);
+  const { data, error, reload } = useInvitation("guest", guestToken);
   const [tries, setTries] = useState(0);
   const [pos, setPos] = useState<{ left: number; top: number }>();
   const [noVisible, setNoVisible] = useState(true);
@@ -44,10 +45,7 @@ export function GuestInvite() {
   if (error)
     return (
       <Shell privatePage>
-        <div className="card">
-          <h1 className="title">A plot twist.</h1>
-          <p className="error">{error}</p>
-        </div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)

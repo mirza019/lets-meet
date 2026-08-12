@@ -12,10 +12,11 @@ export function useInvitation(role: "guest" | "host", token: string) {
         setError("");
       })
       .catch((e) => {
-        setError(
-          e.response?.data?.detail ||
-            "Something broke. Probably the calendar being dramatic. Try again. 🗿",
-        );
+        if (e.response?.status === 404) {
+          setError("This private link is invalid, expired, or no longer active.");
+          return;
+        }
+        setError(e.response?.data?.detail || "The server did not answer after several tries. It may be waking up—try once more. 🗿");
       });
   useEffect(() => {
     void reload();

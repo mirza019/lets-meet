@@ -1,13 +1,26 @@
-import axios from "axios";
+import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { Draft, Invitation, Proposal } from "../types";
 
 const apiBaseUrl =
   import.meta.env.VITE_API_BASE_URL ??
-  (import.meta.env.DEV ? "http://localhost:8000" : "");
+  "";
+
+type RetryableRequest = InternalAxiosRequestConfig & { _retryCount?: number };
 
 export const client = axios.create({
   baseURL: apiBaseUrl,
   timeout: 12000,
+});
+
+client.interceptors.response.use(undefined, async (error: AxiosError) => {
+  const request = error.config as RetryableRequest | undefined;
+  if (!request || request.method?.toLowerCase() !== "get") throw error;
+  const retryable = !error.response || [502, 503, 504].includes(error.response.status);
+  const retryCount = request._retryCount ?? 0;
+  if (!retryable || retryCount >= 3) throw error;
+  request._retryCount = retryCount + 1;
+  await new Promise((resolve) => window.setTimeout(resolve, 900 * 2 ** retryCount));
+  return client(request);
 });
 export const api = {
   create: (data: unknown) =>

@@ -7,10 +7,11 @@ import { useInvitation } from "../hooks/useInvitation";
 import { Shell } from "../layouts/Shell";
 import { useDraft } from "../stores/draft";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 export function GuestReview() {
   const { guestToken = "" } = useParams();
   const nav = useNavigate();
-  const { data, error } = useInvitation("guest", guestToken);
+  const { data, error, reload } = useInvitation("guest", guestToken);
   const { draft, reset } = useDraft();
   const [busy, setBusy] = useState(false);
   async function send() {
@@ -22,7 +23,7 @@ export function GuestReview() {
   if (error)
     return (
       <Shell privatePage wallpaper="review">
-        <div className="error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)

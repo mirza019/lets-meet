@@ -10,6 +10,7 @@ import { useDraft } from "../stores/draft";
 import { MeetMap } from "../features/maps/MeetMap";
 import type { Activity } from "../types";
 import { displayName } from "../utils/names";
+import { RecoveryError } from "../components/RecoveryError";
 const steps = [
   "date",
   "time",
@@ -72,7 +73,7 @@ const extraActivities = [
 export function Wizard() {
   const { guestToken = "" } = useParams();
   const nav = useNavigate();
-  const { data, error } = useInvitation("guest", guestToken);
+  const { data, error, reload } = useInvitation("guest", guestToken);
   const { draft, set } = useDraft();
   const [index, setIndex] = useState(0);
   const step = steps[index];
@@ -105,7 +106,7 @@ export function Wizard() {
   if (error)
     return (
       <Shell privatePage wallpaper="planning">
-        <div className="card error">{error}</div>
+        <RecoveryError message={error} onRetry={reload} />
       </Shell>
     );
   if (!data)
