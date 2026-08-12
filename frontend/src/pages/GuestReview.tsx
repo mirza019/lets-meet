@@ -36,7 +36,7 @@ export function GuestReview() {
   return (
     <Shell privatePage wallpaper="review">
       <section className="card">
-        <p className="eyebrow">The pitch is looking dangerously cute ✨</p>
+        <p className="eyebrow">The pitch is becoming dangerously convincing ✨</p>
         <h1 className="title">Ready to make {host} curious? 👀</h1>
         <p className="subtitle">
           Inspect your masterpiece, fix anything suspicious, then send it off

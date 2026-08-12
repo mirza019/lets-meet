@@ -109,7 +109,7 @@ export function Home() {
               Oh, you wanna
               <br />
               meet me?{" "}
-              <span style={{ color: "var(--coral)" }}>Cute.</span>
+              <span style={{ color: "var(--coral)" }}>Bold move.</span>
             </h1>
             <p className="subtitle">
               Send them a private link and let them build their best plan to

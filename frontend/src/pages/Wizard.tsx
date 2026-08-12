@@ -39,7 +39,7 @@ const options: Record<string, [string, string][]> = {
     ["Something sweet", "🍫 Something sweet"],
     ["Coffee", "☕ Coffee"],
     ["Something tasty", "🍉 Something tasty"],
-    ["Something cute", "🌷 Something cute"],
+    ["A little surprise", "🌷 A little surprise"],
     ["Surprise me", "🎁 Surprise me"],
     ["Custom", "😈 I have a request"],
     ["Just yourself", "✨ Just bring yourself"],
@@ -155,7 +155,7 @@ export function Wizard() {
             <ArrowLeft size={18} /> Back
           </button>
           <button className="btn primary" onClick={next}>
-            {index === steps.length - 1 ? "REVIEW YOUR MASTERPIECE" : "Keep flirting with the plan"}{" "}
+            {index === steps.length - 1 ? "REVIEW YOUR MASTERPIECE" : "Keep building the suspense"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>

@@ -78,7 +78,7 @@ class EmailService:
         personal_note = f"\n\n{note.strip()}" if note and note.strip() else ""
         text = (
             f"Hey {guest},\n\n"
-            f"So… you wanna meet {host}? Cute.\n\n"
+            f"So… you wanna meet {host}? Bold move.\n\n"
             f"{host} sent you a private little challenge: build a plan tempting enough "
             "to earn some very exclusive calendar space. Choose the day, plan the fun, "
             f"and make a dangerously strong case for snacks.{personal_note}\n\n"

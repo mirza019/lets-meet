@@ -16,6 +16,9 @@ def test_user_facing_copy_does_not_explain_or_deny_the_vibe():
         "not a date",
         "date-ish",
         "dateish",
+        "cute",
+        "flirty",
+        "flirting",
     ):
         assert phrase not in combined
 

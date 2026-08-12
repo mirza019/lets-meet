@@ -1,7 +1,7 @@
 export const copy = {
   noMessages: [
     "Aww, pretending not to be curious? 👀",
-    "That was cute. Try catching it again. 😂",
+    "Nice attempt. Try catching it again. 😂",
     "Almost! The drama is getting good.",
     "The NO button thinks you secretly want the plan. 👀",
     "Playing hard to schedule, are we? 😌",

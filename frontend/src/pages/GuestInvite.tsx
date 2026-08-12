@@ -101,8 +101,8 @@ export function GuestInvite() {
         <p className="eyebrow">Your calendar audition has arrived ✨</p>
         <h1 className="title">So, {guest}… you wanna meet {host}? 👀</h1>
         <p className="subtitle">
-          Cute. <strong>{host}</strong> handed you the planning power, so this is
-          your chance to make a dangerously convincing little plan.
+          Well, well. <strong>{host}</strong> handed you the planning power, so
+          this is your chance to make a dangerously convincing little plan.
           <br />
           <br />
           Pick the day, choose the fun, handle the snacks—and maybe earn that
