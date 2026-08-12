@@ -93,15 +93,15 @@ export function GuestInvite() {
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
       >
-        <p className="eyebrow">A private invitation</p>
-        <h1 className="title">Hey {guest} 👀</h1>
+        <p className="eyebrow">Your calendar audition has arrived ✨</p>
+        <h1 className="title">So, {guest}… you wanna meet {host}? 👀</h1>
         <p className="subtitle">
-          <strong>{host}</strong> has been looking for a suspiciously good excuse
-          to steal a little space on your calendar.
+          Cute. <strong>{host}</strong> handed you the planning power, so this is
+          your chance to make a dangerously convincing little plan.
           <br />
           <br />
-          You choose the plan, inspect the snack situation, and try not to enjoy
-          being this in demand. 👀
+          Pick the day, choose the fun, handle the snacks—and maybe earn that
+          very exclusive calendar approval. No pressure. Just your reputation. 😌
         </p>
         {data.personal_note && (
           <blockquote className="note">“{data.personal_note}”</blockquote>
@@ -112,7 +112,7 @@ export function GuestInvite() {
             className="btn primary"
             onClick={() => nav(`/invite/${guestToken}/build`)}
           >
-            YES, OBVIOUSLY 👀
+            FINE, I’LL IMPRESS {host.toUpperCase()} 👀
           </button>
         </div>
         <div

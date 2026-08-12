@@ -16,8 +16,8 @@ export function History({ role }: { role: "host" | "guest" }) {
   return (
     <Shell privatePage wallpaper="review">
       <section className="card">
-        <p className="eyebrow">Plan journey</p>
-        <h1 className="title">The plan's plot twists</h1>
+        <p className="eyebrow">Every attempt to impress, documented 👀</p>
+        <h1 className="title">The plan’s delicious little plot twists</h1>
         <div className="timeline">
           {items.map((x) => (
             <div className="timeline-item" key={x.id}>

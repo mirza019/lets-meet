@@ -52,7 +52,7 @@ export function MeetMode({ role }: { role: "host" | "guest" }) {
           <button
             className="btn secondary"
             onClick={() =>
-              setMessage("You're here. Extremely professional. 👀")
+              setMessage("You showed up. Looking suspiciously pleased about it too. 👀")
             }
           >
             I'M HERE 👀

@@ -23,9 +23,13 @@ test("renders nicknames and retires the no button after six playful escapes", as
       </Routes>
     </MemoryRouter>,
   );
-  expect(await screen.findByText(/Hey Babe/)).toBeInTheDocument();
   expect(
-    screen.getByRole("button", { name: "YES, OBVIOUSLY 👀" }),
+    await screen.findByRole("heading", {
+      name: /So, Babe… you wanna meet Buddy\? 👀/,
+    }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: "FINE, I’LL IMPRESS BUDDY 👀" }),
   ).toBeInTheDocument();
   let no = screen.getByRole("button", { name: "NO 🙄" });
   for (let i = 0; i < 5; i++) {

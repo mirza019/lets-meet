@@ -34,11 +34,11 @@ def test_invitation_email_speaks_in_the_senders_voice():
         "Your calendar has been selected.",
     )
 
-    assert sent["subject"] == "Alex sent you a Let's Meet invitation"
+    assert sent["subject"] == "You want to meet Alex? Build your best plan 👀"
     assert "Hey Jamie" in sent["text"]
-    assert "Wanna meet me?" in sent["text"]
-    assert "trusted with a tiny piece of my calendar" in sent["text"]
-    assert "make a strong case for snacks" in sent["text"]
+    assert "you wanna meet Alex? Cute" in sent["text"]
+    assert "earn some very exclusive calendar space" in sent["text"]
+    assert "dangerously strong case for snacks" in sent["text"]
     assert "— Alex" in sent["text"]
     assert "View invitation" in sent["html"]
 

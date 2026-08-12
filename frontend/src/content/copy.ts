@@ -1,13 +1,13 @@
 export const copy = {
   noMessages: [
-    "Hmm… wrong button? 👀",
-    "You're persistent 😂",
-    "Almost caught it.",
-    "That NO button is fighting for its life.",
-    "Professional plan dodger detected. 👀",
-    "Nice try, tiny rebel 😂",
-    "It moved. Very mature of it. 😂",
-    "The button requests another location.",
+    "Aww, pretending not to be curious? 👀",
+    "That was cute. Try catching it again. 😂",
+    "Almost! The drama is getting good.",
+    "The NO button thinks you secretly want the plan. 👀",
+    "Playing hard to schedule, are we? 😌",
+    "Nice try, tiny calendar tease. 😂",
+    "It moved. Clearly it loves the attention.",
+    "The button needs space to process your mixed signals. 👀",
   ],
   negotiation: [
     "{name} has notes. 👀",

@@ -123,7 +123,7 @@ export function Wizard() {
     <Shell privatePage wallpaper="planning">
       <section className="card">
         <p className="eyebrow">
-          Planning suspiciously cute trouble · {index + 1}/{steps.length}
+          Building your best little pitch · {index + 1}/{steps.length}
         </p>
         <div className="progress">
           <span style={{ width: `${((index + 1) / steps.length) * 100}%` }} />
@@ -155,7 +155,7 @@ export function Wizard() {
             <ArrowLeft size={18} /> Back
           </button>
           <button className="btn primary" onClick={next}>
-            {index === steps.length - 1 ? "REVIEW THE DAMAGE" : "Continue"}{" "}
+            {index === steps.length - 1 ? "REVIEW YOUR MASTERPIECE" : "Keep flirting with the plan"}{" "}
             <ArrowRight size={18} />
           </button>
         </div>
@@ -226,7 +226,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          When can {host} borrow your elite planning skills? 👀
+          First move: when are you stealing a little time with {host}? 👀
         </h1>
         <div className="choices">
           {dates.map(([v, l]) => (
@@ -253,7 +253,7 @@ function StepView({
   if (step === "time")
     return (
       <>
-        <h1 className="title">When should {host} make room for this tiny adventure? 👀</h1>
+        <h1 className="title">What time makes your plan look extra tempting to {host}? 😌</h1>
         <div className="choices">
           {[
             ["09:00", "Morning"],
@@ -283,7 +283,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          How long does {host} get? Be generous-ish. 😌
+          How much of {host}’s time are you boldly requesting? 👀
         </h1>
         <div className="field">
           <label>Choose duration</label>
@@ -312,9 +312,9 @@ function StepView({
   if (step === "activity")
     return (
       <>
-        <h1 className="title">What kind of trouble are you planning for {host}? 👀</h1>
+        <h1 className="title">How are you planning to charm {host}’s calendar? 👀</h1>
         <p className="subtitle">
-          Pick every suspiciously cute idea you like. Changed your mind? Tap it again to unselect.
+          Pick every idea that makes your pitch harder to refuse. Tap again if one loses its sparkle.
         </p>
         <div className="choices">
           {options.activity.map(([v, l]) => (
@@ -350,13 +350,13 @@ function StepView({
     if (!food)
       return (
         <>
-          <h1 className="title">No snacks for {host}? Bold. 👀</h1>
-          <p className="subtitle">A fearless choice. We respect the confidence.</p>
+          <h1 className="title">No snacks in your pitch? Confident move. 👀</h1>
+          <p className="subtitle">You must be relying heavily on your personality. Adorable.</p>
         </>
       );
     return (
       <>
-        <h1 className="title">Important business: what are you feeding {host}? 🍜</h1>
+        <h1 className="title">Snack strategy: how are you winning over {host}? 🍜</h1>
         {draft.meeting_time && (
           <p className="subtitle">
             Based on {draft.meeting_time}, <strong>{draft.meal_type}</strong> is
@@ -378,7 +378,7 @@ function StepView({
           <>
             <p>
               <strong>
-                Pick a menu favorite. No committee meeting required.
+                Pick enough favorites to make saying yes feel suspiciously easy.
               </strong>
             </p>
             <div className="choices">
@@ -446,10 +446,10 @@ function StepView({
               </motion.div>
             )}
             <div className="premium-service">
-              <strong>✨ {host} can cook for you too.</strong>
+              <strong>✨ Feeling bold? Ask {host} to cook for you.</strong>
               <span>
-                A premium add-on for any food choice—including your own Other
-                idea. Pick the food, then let {host} face the kitchen. 👨‍🍳
+                A cheeky premium add-on for any food choice. Choose wisely;
+                kitchen privileges are clearly exclusive. 👨‍🍳
               </span>
             </div>
             <p className="muted">Select as many food options as you like.</p>
@@ -547,9 +547,9 @@ function StepView({
   if (step === "bring")
     return (
       <>
-        <h1 className="title">Should {host} bring something too?</h1>
+        <h1 className="title">What should {host} bring to this little situation?</h1>
         <p className="subtitle">
-          Their excellent timing is already included. Allegedly. 👀
+          Besides their lovely presence, obviously. Don’t look too pleased. 👀
         </p>
         <div className="choices">
           {options.bring.map(([v, l]) => (
@@ -579,7 +579,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          What vibe are you bringing for {host}? 😂
+          What version of you is {host} getting that day? 😌
         </h1>
         <div className="choices">
           {options[step].map(([v, l]) => (
@@ -601,7 +601,7 @@ function StepView({
   if (step === "location")
     return (
       <>
-        <h1 className="title">Where should {host} report for fun duty? 🫡</h1>
+        <h1 className="title">Where are you trying to casually impress {host}? 👀</h1>
         <div className="field">
           <label>Place name</label>
           <input
@@ -627,8 +627,8 @@ function StepView({
     );
   return (
     <>
-      <h1 className="title">{host} survived the food mission. What’s next? 👀</h1>
-      <p className="subtitle">Tap to add. Tap again to remove. Commitment level: snack-sized.</p>
+      <h1 className="title">One last chance to make {host} curious. What’s next? 👀</h1>
+      <p className="subtitle">Add the finishing touches. Your calendar audition is almost ready.</p>
       <div className="choices">
         {extraActivities.map((v) => (
           <Choice
@@ -694,7 +694,7 @@ function StepView({
         <textarea
           value={draft.notes || ""}
           onChange={(e) => choose("notes", e.target.value)}
-          placeholder="Allergies, secret instructions, plausible deniability…"
+          placeholder={`A final tiny detail to make ${host} smile…`}
         />
       </div>
       <div className="revive-plan">

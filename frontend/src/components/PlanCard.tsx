@@ -29,7 +29,7 @@ export function PlanCard({
     .join(", ");
   return (
     <div>
-      <p className="eyebrow">Your appointment request ✨</p>
+      <p className="eyebrow">A suspiciously thoughtful meetup pitch ✨</p>
       <h2>
         {guest} <span className="muted">→</span> {host}
       </h2>

@@ -78,10 +78,10 @@ class EmailService:
         personal_note = f"\n\n{note.strip()}" if note and note.strip() else ""
         text = (
             f"Hey {guest},\n\n"
-            f"{host} sent you a private Let's Meet invitation.\n\n"
-            "Wanna meet me? You have officially been trusted with a tiny piece of my calendar—"
-            "try not to let the power go to your head. Open the link, choose a day, plan "
-            f"something fun, and make a strong case for snacks.{personal_note}\n\n"
+            f"So… you wanna meet {host}? Cute.\n\n"
+            f"{host} sent you a private little challenge: build a plan tempting enough "
+            "to earn some very exclusive calendar space. Choose the day, plan the fun, "
+            f"and make a dangerously strong case for snacks.{personal_note}\n\n"
             f"— {host}\n\n"
             f"View invitation: {url}\n\n"
             f"This message was sent because {host} entered your email in Let's Meet. "
@@ -89,28 +89,28 @@ class EmailService:
         )
         self.provider.send(
             to,
-            f"{host} sent you a Let's Meet invitation",
+            f"You want to meet {host}? Build your best plan 👀",
             self._html(text, url, "View invitation"),
             text,
         )
 
     def proposal(self, to: str, recipient: str, author: str, url: str, counter: bool) -> None:
         intro = (
-            f"{author} updated the meetup plan. Apparently they have opinions—bold of them."
+            f"{author} added a cheeky little plot twist to the meetup plan. Your attention is required."
             if counter
-            else f"{recipient}, you've been summoned. {author} made a plan and is acting very organized about it."
+            else f"{recipient}, {author} built a whole little plan to earn your time. Inspect the effort."
         )
         text = f"{intro}\n\nReview the private plan: {url}"
         self.provider.send(
             to,
-            f"{author} sent you a Let's Meet plan",
+            f"{author} made a plan to impress you 👀",
             self._html(text, url, "Review plan"),
             text,
         )
 
     def confirmation(self, to: str, first: str, second: str, url: str, plan_details: str) -> None:
         text = (
-            f"{first} + {second}: the meetup is confirmed. Calendar secured—try to act casual.\n\n"
+            f"{first} + {second}: the calendar audition was a success. Try to act casual.\n\n"
             f"Here is the agreed plan for your records:\n\n{plan_details}\n\n"
             f"View the private plan: {url}"
         )

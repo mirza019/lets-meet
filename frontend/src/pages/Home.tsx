@@ -68,8 +68,9 @@ export function Home() {
               </div>
             ) : (
               <p className="subtitle">
-                Your tiny piece of calendar mischief is on its way. Now we wait
-                for {form.guest_nickname || form.guest_name} to build the plan. 👀
+                The challenge is officially in their inbox. Now
+                {` ${form.guest_nickname || form.guest_name}`} gets to prove they
+                deserve a spot on your calendar. 👀
               </p>
             )}
             <div className="field">
@@ -103,26 +104,26 @@ export function Home() {
           </>
         ) : (
           <>
-            <p className="eyebrow">Cute plans, mild mischief</p>
+            <p className="eyebrow">Your calendar. Their audition. 👀</p>
             <h1 className="title">
-              Make plans.
+              Oh, you wanna
               <br />
-              Keep it{" "}
-              <span style={{ color: "var(--coral)" }}>interesting.</span>
+              meet me?{" "}
+              <span style={{ color: "var(--coral)" }}>Cute.</span>
             </h1>
             <p className="subtitle">
-              Someone has been looking for an excuse to see you. Give them the
-              planning power; you keep final approval and full judging rights
-              over their snack choices. 👀
+              Send them a private link and let them build their best plan to
+              see you. You inspect the effort, judge the snacks, and decide if
+              they have earned some calendar space. 😌
             </p>
             <aside className="how-it-works" aria-label="How Let's Meet works">
-              <strong>Someone wants your time? Make them earn it. 👀</strong>
+              <strong>Someone wants to meet you? Here’s their little challenge:</strong>
               <ol>
                 <li>
-                  Add your details and the name of your suspiciously eager planner.
+                  Add your name and the name of the person asking for your time.
                 </li>
-                <li>They get a private link and build their best meetup pitch.</li>
-                <li>You review the evidence and give the final verdict.</li>
+                <li>They get a private link and create a plan tempting enough for you.</li>
+                <li>You receive their pitch, review it, and give the final verdict. 👀</li>
               </ol>
             </aside>
             <form className="stack" onSubmit={submit}>
@@ -149,7 +150,7 @@ export function Home() {
               </div>
               <div className="row">
                 <div className="field">
-                  <label>Person you want to meet</label>
+                  <label>Who wants to meet you?</label>
                   <input
                     required
                     value={form.guest_name}
@@ -195,7 +196,7 @@ export function Home() {
                 <textarea
                   value={form.personal_note}
                   onChange={(e) => change("personal_note", e.target.value)}
-                  placeholder="Clear a tiny corner of your calendar. I have plans for it. 👀"
+                  placeholder="You want my time? Show me your best plan. 👀"
                 />
               </div>
               {error && <div className="error">{error}</div>}
@@ -204,7 +205,7 @@ export function Home() {
                   "Sending…"
                 ) : (
                   <>
-                    CREATE A MEET <Sparkles size={18} />
+                    SEND THE CHALLENGE <Sparkles size={18} />
                   </>
                 )}
               </button>

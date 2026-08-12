@@ -56,22 +56,22 @@ export function RoleReview({ role }: { role: "host" | "guest" }) {
           {isConfirmed
             ? "This plan is confirmed. 🤝"
             : role === "host"
-              ? `${host}, we have news. 👀`
-              : `Plan update received. 👀`}
+              ? `${host}, someone has been trying to impress you. 👀`
+              : `${host} sent your plan back with a tiny plot twist. 👀`}
         </h1>
         <p className="subtitle">
           {isConfirmed
             ? "The confirmed version stays active until both people accept any requested change."
             : role === "host"
-              ? `${guest} built a suspiciously thoughtful plan for your attention. Review the pitch.`
-              : `${host} adjusted the plan. Cheeky move—inspect the evidence.`}
+              ? `${guest} built a whole little plan to earn your time. Inspect the effort, judge the snacks, and deliver your verdict.`
+              : `${host} adjusted the plan. Your pitch clearly got their attention—inspect the cheeky little update.`}
         </p>
         <PushNotifications role={role} token={token} />
         <PlanCard plan={data.current_proposal} invite={data} />
         <div className="row">
           {!isConfirmed && (
             <button className="btn primary" disabled={busy} onClick={accept}>
-              ACCEPT ✨
+              {role === "host" ? `FINE, ${guest.toUpperCase()}—YOU WIN ✨` : "APPROVE THE PLOT TWIST ✨"}
             </button>
           )}
         </div>

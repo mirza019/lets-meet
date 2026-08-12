@@ -28,14 +28,14 @@ export function Confirmed({ role }: { role: "host" | "guest" }) {
     <Shell privatePage wallpaper="meet">
       <section className="card">
         <div className="confetti">🤝✨</div>
-        <p className="eyebrow">Suspiciously cute plan confirmed</p>
-        <h1 className="title">THE ALIBI IS READY</h1>
+        <p className="eyebrow">The calendar audition was a success ✨</p>
+        <h1 className="title">FINE. YOU TWO ARE MEETING. 👀</h1>
         <p className="subtitle">
           {guest} ✅<br />
           {host} ✅<br />
           <br />
-          {guest} and {host} agreed on a plan. Suspiciously efficient—and a
-          little cute. 😂
+          {guest} made the pitch. {host} approved the effort. The snacks may
+          now prepare themselves accordingly. 😌
         </p>
         <PushNotifications role={role} token={token} />
         {data.current_proposal && (

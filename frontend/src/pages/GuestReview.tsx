@@ -36,6 +36,12 @@ export function GuestReview() {
   return (
     <Shell privatePage wallpaper="review">
       <section className="card">
+        <p className="eyebrow">The pitch is looking dangerously cute ✨</p>
+        <h1 className="title">Ready to make {host} curious? 👀</h1>
+        <p className="subtitle">
+          Inspect your masterpiece, fix anything suspicious, then send it off
+          for the only verdict that matters.
+        </p>
         <PlanCard plan={draft} invite={data} />
         <div className="row">
           <button
@@ -45,7 +51,7 @@ export function GuestReview() {
             EDIT PLAN
           </button>
           <button className="btn primary" disabled={busy} onClick={send}>
-            {busy ? "Sending…" : `SEND TO ${host.toUpperCase()} ✨`}
+            {busy ? "Sending…" : `TEMPT ${host.toUpperCase()} ✨`}
           </button>
         </div>
       </section>

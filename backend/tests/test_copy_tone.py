@@ -9,5 +9,14 @@ def test_user_facing_copy_does_not_explain_or_deny_the_vibe():
         root / "backend" / "app" / "email" / "service.py",
     ]
     combined = "\n".join(path.read_text().lower() for path in sources)
-    for phrase in ("not romantic", "romantic declaration", "date-ish", "dateish"):
+    for phrase in (
+        "not romantic",
+        "romantic declaration",
+        "this is not romance",
+        "not a date",
+        "date-ish",
+        "dateish",
+    ):
         assert phrase not in combined
+
+    assert "loading the drama" in combined
