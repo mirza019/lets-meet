@@ -1,7 +1,14 @@
 import os
+import tempfile
+
+test_database = tempfile.NamedTemporaryFile(prefix="lets-meet-tests-", suffix=".db", delete=False)
+test_database.close()
 
 os.environ.update(
-    DATABASE_URL="sqlite:///./test_lets_meet.db", EMAIL_PROVIDER="console", RATE_LIMIT_PER_MINUTE="1000", APP_SECRET="test-secret"
+    DATABASE_URL=f"sqlite:///{test_database.name}",
+    EMAIL_PROVIDER="console",
+    RATE_LIMIT_PER_MINUTE="1000",
+    APP_SECRET="test-secret",
 )
 import pytest
 from fastapi.testclient import TestClient

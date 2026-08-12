@@ -26,6 +26,20 @@ else
   done
 fi
 
+# Vite can otherwise coexist on IPv4 and IPv6 under the same port, causing
+# localhost to randomly reach an older process. Stop only Vite instances that
+# were launched from this project's frontend directory.
+project_frontend=$(cd frontend && pwd)
+for vite_pid in $(lsof -nP -iTCP:5173 -sTCP:LISTEN -t 2>/dev/null || true); do
+  vite_command=$(ps -p "$vite_pid" -o command= 2>/dev/null || true)
+  case "$vite_command" in
+    *"$project_frontend/node_modules/.bin/vite"*)
+      echo "Stopping stale project frontend process $vite_pid."
+      kill "$vite_pid" 2>/dev/null || true
+      ;;
+  esac
+done
+
 (cd frontend && exec npm run dev) &
 frontend_pid=$!
 wait "$frontend_pid"
