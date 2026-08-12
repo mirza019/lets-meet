@@ -34,7 +34,7 @@ test("renders nicknames and retires the no button after six playful escapes", as
   }
   await user.click(no);
   expect(
-    await screen.findByText(/you have to meet Buddy/i),
+    await screen.findByText(/zero pressure, zero drama/i),
   ).toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "NO 🙄" })).toBeNull();
 });

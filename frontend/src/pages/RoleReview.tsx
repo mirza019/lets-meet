@@ -63,7 +63,7 @@ export function RoleReview({ role }: { role: "host" | "guest" }) {
             ? "The confirmed version stays active until both people accept any requested change."
             : role === "host"
               ? `${guest} built a suspiciously organized meetup. Your approval is requested.`
-              : `${host} adjusted the plan. Bold move—review the evidence.`}
+              : `${host} adjusted the plan. Cheeky move—review the evidence.`}
         </p>
         <PushNotifications role={role} token={token} />
         <PlanCard plan={data.current_proposal} invite={data} />

@@ -98,10 +98,11 @@ export function GuestInvite() {
         <p className="eyebrow">A private invitation</p>
         <h1 className="title">Hey {guest} 👀</h1>
         <p className="subtitle">
-          Wanna meet <strong>{host}</strong>?
+          Fancy an unofficial little date-ish meetup with <strong>{host}</strong>?
           <br />
           <br />
-          Apparently {host} has a booking system now. Very official. 🙄
+          Not a romantic declaration—just two people, one suspicious calendar,
+          and enough playful tension to make choosing snacks unnecessarily serious. 👀
         </p>
         {data.personal_note && (
           <blockquote className="note">“{data.personal_note}”</blockquote>
@@ -137,7 +138,7 @@ export function GuestInvite() {
             style={{ minHeight: 24, textAlign: "center" }}
           >
             {tries >= 6
-              ? `${guest}, nice try. You have no option now—you have to meet ${host}. The booking system has spoken. 😏`
+              ? `Okay ${guest}, the NO button has retired dramatically. If you truly mean no, you can close this page—zero pressure, zero drama. 🙂`
               : copy.noMessages[(tries - 1) % copy.noMessages.length]}
           </p>
         )}

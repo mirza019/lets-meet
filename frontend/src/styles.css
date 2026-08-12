@@ -94,6 +94,8 @@ button {
 }
 .brand {
   font-weight: 800;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  line-height: 1;
   letter-spacing: 0.14em;
   color: var(--navy);
   text-decoration: none;
@@ -159,6 +161,26 @@ button {
   line-height: 1.6;
   color: var(--muted);
   margin-bottom: 28px;
+}
+.how-it-works {
+  margin: -6px 0 26px;
+  padding: 18px 20px;
+  border: 1px solid rgba(237, 100, 133, 0.2);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 240, 244, 0.9), rgba(255, 250, 242, 0.92));
+  color: var(--navy);
+}
+.how-it-works strong {
+  color: #b4234e;
+}
+.how-it-works ol {
+  margin: 10px 0 0;
+  padding-left: 1.3rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.how-it-works li + li {
+  margin-top: 5px;
 }
 .btn {
   border: 0;
@@ -510,6 +532,10 @@ button {
   }
 }
 @media (max-width: 520px) {
+  .brand {
+    font-size: clamp(1.45rem, 7vw, 1.85rem);
+    letter-spacing: 0.1em;
+  }
   .choices {
     grid-template-columns: 1fr;
   }

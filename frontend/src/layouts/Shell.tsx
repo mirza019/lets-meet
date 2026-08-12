@@ -32,7 +32,7 @@ export function Shell({
       </nav>
       <main className="main">{children}</main>
       <footer className="privacy">
-        <strong>Made for fun</strong>
+        <strong>Made by Mirza Shaheen Iqubal</strong>
         <br />
         Private links. No accounts. No public plans. Good.
       </footer>

@@ -67,9 +67,8 @@ export function Home() {
               </div>
             ) : (
               <p className="subtitle">
-                Now we wait for important people to review{" "}
-                {form.host_nickname || form.host_name}'s appointment
-                availability. 😏
+                Your tiny piece of calendar mischief is on its way. Now we wait
+                for {form.guest_nickname || form.guest_name} to build the plan. 👀
               </p>
             )}
             <div className="field">
@@ -103,7 +102,7 @@ export function Home() {
           </>
         ) : (
           <>
-            <p className="eyebrow">A two-person conspiracy</p>
+            <p className="eyebrow">Cute plans, mild mischief</p>
             <h1 className="title">
               Make plans.
               <br />
@@ -111,9 +110,17 @@ export function Home() {
               <span style={{ color: "var(--coral)" }}>interesting.</span>
             </h1>
             <p className="subtitle">
-              Send a private invitation. They build the meetup. You approve the
-              plan and pretend this level of organization is completely normal.
+              Invite someone to build a cheeky little unofficial date-ish meetup
+              for you. They choose the plan; you review it and act very normal. 👀
             </p>
+            <aside className="how-it-works" aria-label="How Let's Meet works">
+              <strong>Someone wants to meet you? Here’s the plot:</strong>
+              <ol>
+                <li>Enter your name and the name of the person you want to meet.</li>
+                <li>They receive a private link and build the meetup plan.</li>
+                <li>You get their plan, review it, and approve the final meetup.</li>
+              </ol>
+            </aside>
             <form className="stack" onSubmit={submit}>
               <div className="row">
                 <div className="field">
