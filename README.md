@@ -2,6 +2,8 @@
 
 A playful, private meeting planner for two people. Create an invitation, share a private link, build a plan together, and confirm the exact version both people accepted—no accounts required.
 
+![Let's Meet homepage](docs/lets-meet-homepage.jpg)
+
 ## Highlights
 
 - Mobile-first React interface with a soft pink visual style and animated backgrounds
