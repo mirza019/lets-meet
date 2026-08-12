@@ -24,6 +24,14 @@ class InvitationService:
         self.push = PushService(db, settings)
 
     def create(self, data: InvitationCreate, *, send_email: bool = True):
+        if data.client_request_id:
+            existing = self.db.scalar(select(Invitation).where(Invitation.client_request_id == data.client_request_id))
+            if existing:
+                guest_token = decrypt_token(existing.guest_token_ciphertext, self.settings.app_secret)
+                host_token = decrypt_token(existing.host_token_ciphertext, self.settings.app_secret)
+                guest_url = f"{self.settings.frontend_base_url}/invite/{guest_token}"
+                host_url = f"{self.settings.frontend_base_url}/respond/{host_token}"
+                return existing, guest_url, host_url, True
         guest_token, host_token = create_token(), create_token()
         invitation = Invitation(
             **data.model_dump(),

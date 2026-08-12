@@ -92,10 +92,11 @@ def create_invitation(
     background_tasks: BackgroundTasks,
     svc: InvitationService = Depends(service),
 ):
-    invitation, guest_url, host_url, _ = svc.create(data, send_email=False)
+    invitation, guest_url, host_url, previous_delivery = svc.create(data, send_email=False)
     delivery = "console" if svc.email.delivery_mode == "console" else "queued"
     if delivery == "queued":
-        background_tasks.add_task(deliver_initial_email, invitation.id, data, guest_url, svc.settings)
+        if previous_delivery is None:
+            background_tasks.add_task(deliver_initial_email, invitation.id, data, guest_url, svc.settings)
     else:
         # Console mode is instant and useful in local development/test output.
         delivery = "console" if svc.send_initial_invitation(invitation, data, guest_url) else "failed"

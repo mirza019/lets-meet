@@ -48,8 +48,20 @@ client.interceptors.response.use(undefined, async (error: AxiosError) => {
   return client(request);
 });
 export const api = {
-  create: (data: unknown) =>
-    client.post("/api/invitations", data).then((r) => r.data),
+  create: async (data: unknown) => {
+    let lastError: unknown;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      try {
+        return await client.post("/api/invitations", data).then((response) => response.data);
+      } catch (error) {
+        lastError = error;
+        const axiosError = error as AxiosError;
+        if (axiosError.response || attempt === 2) throw error;
+        await new Promise((resolve) => window.setTimeout(resolve, 800 * 2 ** attempt));
+      }
+    }
+    throw lastError;
+  },
   get: (role: "guest" | "host", token: string) =>
     client
       .get<Invitation>(`/api/invitations/${role}/${token}`)

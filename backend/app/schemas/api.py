@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class InvitationCreate(BaseModel):
+    client_request_id: str | None = Field(None, min_length=8, max_length=64)
     host_name: str = Field(min_length=1, max_length=100)
     host_email: EmailStr | None = None
     host_nickname: str | None = Field(None, max_length=100)

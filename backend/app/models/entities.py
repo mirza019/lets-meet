@@ -22,6 +22,7 @@ class Role(str, enum.Enum):
 class Invitation(Base):
     __tablename__ = "invitations"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    client_request_id: Mapped[str | None] = mapped_column(String(64), unique=True, index=True)
     host_name: Mapped[str] = mapped_column(String(100))
     host_email: Mapped[str | None] = mapped_column(String(320))
     host_nickname: Mapped[str | None] = mapped_column(String(100))

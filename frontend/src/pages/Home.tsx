@@ -28,7 +28,11 @@ export function Home() {
     setError("");
     try {
       setResult(
-        await api.create({ ...form, host_email: form.host_email || null }),
+        await api.create({
+          ...form,
+          host_email: form.host_email || null,
+          client_request_id: crypto.randomUUID(),
+        }),
       );
     } catch (err: unknown) {
       setError(apiErrorMessage(err));

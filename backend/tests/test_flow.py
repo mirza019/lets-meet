@@ -29,6 +29,63 @@ def test_invitation_survives_email_delivery_failure(client, monkeypatch):
     assert client.get(f"/api/invitations/guest/{guest_token}").status_code == 200
 
 
+def test_retried_creation_returns_same_links_and_sends_once(client, monkeypatch):
+    from app.email.service import ConsoleEmailProvider
+
+    deliveries = 0
+
+    def count(*args, **kwargs):
+        nonlocal deliveries
+        deliveries += 1
+
+    monkeypatch.setattr(ConsoleEmailProvider, "send", count)
+    payload = {
+        "client_request_id": "browser-request-123",
+        "host_name": "Alex",
+        "host_email": "alex@example.com",
+        "guest_name": "Jamie",
+        "guest_email": "jamie@example.com",
+    }
+    first = client.post("/api/invitations", json=payload)
+    second = client.post("/api/invitations", json=payload)
+    assert first.status_code == second.status_code == 201
+    assert first.json()["guest_url"] == second.json()["guest_url"]
+    assert first.json()["host_url"] == second.json()["host_url"]
+    assert deliveries == 1
+    with SessionLocal() as db:
+        assert len(db.scalars(select(Invitation)).all()) == 1
+
+
+def test_retried_queued_creation_schedules_email_once(client, monkeypatch):
+    from app.email.service import EmailService
+
+    deliveries = 0
+
+    def count(*args, **kwargs):
+        nonlocal deliveries
+        deliveries += 1
+
+    def configure_queued(self, settings):
+        self.settings = settings
+        self.delivery_mode = "sent"
+
+    monkeypatch.setattr(EmailService, "__init__", configure_queued)
+    monkeypatch.setattr(EmailService, "invitation", count)
+    payload = {
+        "client_request_id": "queued-browser-request-123",
+        "host_name": "Alex",
+        "host_email": "alex@example.com",
+        "guest_name": "Jamie",
+        "guest_email": "jamie@example.com",
+    }
+    first = client.post("/api/invitations", json=payload)
+    second = client.post("/api/invitations", json=payload)
+    assert first.status_code == second.status_code == 201
+    assert first.json()["email_delivery"] == second.json()["email_delivery"] == "queued"
+    assert first.json()["guest_url"] == second.json()["guest_url"]
+    assert deliveries == 1
+
+
 def test_invitation_hides_tokens_and_roles_are_separate(client, invite):
     guest, host = invite
     assert client.get(f"/api/invitations/guest/{guest}").status_code == 200
