@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
-import { api } from "../api/client";
+import { api, apiErrorMessage } from "../api/client";
 import { Shell } from "../layouts/Shell";
 export function Home() {
   const [form, setForm] = useState({
@@ -16,7 +16,7 @@ export function Home() {
   const [result, setResult] = useState<{
     host_url: string;
     guest_url: string;
-    email_delivery: "sent" | "console" | "failed";
+    email_delivery: "sent" | "queued" | "console" | "failed";
   }>();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -30,11 +30,8 @@ export function Home() {
       setResult(
         await api.create({ ...form, host_email: form.host_email || null }),
       );
-    } catch (err: any) {
-      setError(
-        err.response?.data?.detail?.[0]?.msg ||
-          "Something broke. Probably the calendar being dramatic. 🗿",
-      );
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err));
     } finally {
       setBusy(false);
     }
@@ -50,16 +47,16 @@ export function Home() {
           <>
             <div className="confetti">📨✨</div>
             <p className="eyebrow">
-              {result.email_delivery === "sent"
+              {result.email_delivery === "sent" || result.email_delivery === "queued"
                 ? "Message dispatched"
                 : "Local preview created"}
             </p>
             <h1 className="title">
-              {result.email_delivery === "sent"
+              {result.email_delivery === "sent" || result.email_delivery === "queued"
                 ? "Invitation sent"
                 : "Invitation ready"}
             </h1>
-            {result.email_delivery !== "sent" ? (
+            {result.email_delivery !== "sent" && result.email_delivery !== "queued" ? (
               <div className="note" role="status">
                 {result.email_delivery === "failed"
                   ? "The invitation is safely created, but email delivery had a temporary problem. Copy and send the guest link below—the plan still works perfectly."

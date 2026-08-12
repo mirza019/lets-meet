@@ -9,8 +9,33 @@ type RetryableRequest = InternalAxiosRequestConfig & { _retryCount?: number };
 
 export const client = axios.create({
   baseURL: apiBaseUrl,
-  timeout: 12000,
+  // Proposal/confirmation requests may still include email delivery. Keep the
+  // browser timeout longer than the mail provider's bounded timeout.
+  timeout: 35000,
 });
+
+export function apiErrorMessage(error: unknown): string {
+  const axiosError = error as AxiosError<{ detail?: unknown }>;
+  const detail = axiosError.response?.data?.detail;
+  if (typeof detail === "string" && detail.trim()) return detail;
+  if (Array.isArray(detail)) {
+    const messages = detail
+      .map((item) =>
+        typeof item === "object" && item && "msg" in item
+          ? String((item as { msg: unknown }).msg)
+          : "",
+      )
+      .filter(Boolean);
+    if (messages.length) return messages.join(" ");
+  }
+  if (axiosError.code === "ECONNABORTED") {
+    return "The server took too long to answer. Your plan may still be saved—refresh once before trying again.";
+  }
+  if (!axiosError.response) {
+    return "The app cannot reach the server right now. Check your connection and try once more.";
+  }
+  return "The meetup could not be created. Please try once more.";
+}
 
 client.interceptors.response.use(undefined, async (error: AxiosError) => {
   const request = error.config as RetryableRequest | undefined;

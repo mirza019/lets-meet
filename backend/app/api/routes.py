@@ -1,13 +1,14 @@
+import logging
 from collections import defaultdict, deque
 from datetime import datetime, timedelta, timezone
 from threading import Lock
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.core.config import Settings, get_settings
-from app.db.session import get_db
-from app.models import Role
+from app.db.session import SessionLocal, get_db
+from app.models import Invitation, Role
 from app.schemas.api import (
     AcceptOut,
     InvitationCreate,
@@ -24,6 +25,7 @@ from app.services.invitations import InvitationService
 from app.services.push import PushService
 
 router = APIRouter(prefix="/api")
+logger = logging.getLogger(__name__)
 hits: dict[str, deque[datetime]] = defaultdict(deque)
 hit_lock = Lock()
 
@@ -74,17 +76,35 @@ def unsubscribe_push(
     PushService(svc.db, svc.settings).unsubscribe(invitation, role, data.endpoint)
 
 
+def deliver_initial_email(invitation_id: str, data: InvitationCreate, guest_url: str, settings: Settings) -> None:
+    """Deliver after the HTTP response so a slow mail server cannot break meetup creation."""
+    with SessionLocal() as db:
+        invitation = db.get(Invitation, invitation_id)
+        if invitation is None:
+            logger.error("Invitation disappeared before email delivery id=%s", invitation_id)
+            return
+        InvitationService(db, settings).send_initial_invitation(invitation, data, guest_url)
+
+
 @router.post("/invitations", response_model=InvitationCreated, status_code=201, dependencies=[Depends(limited)])
-def create_invitation(data: InvitationCreate, svc: InvitationService = Depends(service)):
-    invitation, guest_url, host_url, email_sent = svc.create(data)
-    delivery = svc.email.delivery_mode if email_sent else "failed"
-    message = (
-        f"Invitation sent to {invitation.guest_name} 💌"
-        if delivery == "sent"
-        else "Invitation created. Copy and share the private guest link."
-    )
+def create_invitation(
+    data: InvitationCreate,
+    background_tasks: BackgroundTasks,
+    svc: InvitationService = Depends(service),
+):
+    invitation, guest_url, host_url, _ = svc.create(data, send_email=False)
+    delivery = "console" if svc.email.delivery_mode == "console" else "queued"
+    if delivery == "queued":
+        background_tasks.add_task(deliver_initial_email, invitation.id, data, guest_url, svc.settings)
+    else:
+        # Console mode is instant and useful in local development/test output.
+        delivery = "console" if svc.send_initial_invitation(invitation, data, guest_url) else "failed"
     return InvitationCreated(
-        message=message,
+        message=(
+            f"Invitation queued for {invitation.guest_name} 💌"
+            if delivery == "queued"
+            else "Invitation created. Copy and share the private guest link."
+        ),
         guest_url=guest_url,
         host_url=host_url,
         email_delivery=delivery,

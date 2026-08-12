@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
 import logging
+from datetime import datetime, timedelta, timezone
 
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -23,7 +23,7 @@ class InvitationService:
         self.email = EmailService(settings)
         self.push = PushService(db, settings)
 
-    def create(self, data: InvitationCreate):
+    def create(self, data: InvitationCreate, *, send_email: bool = True):
         guest_token, host_token = create_token(), create_token()
         invitation = Invitation(
             **data.model_dump(),
@@ -37,14 +37,23 @@ class InvitationService:
         self.db.commit()
         guest_url = f"{self.settings.frontend_base_url}/invite/{guest_token}"
         host_url = f"{self.settings.frontend_base_url}/respond/{host_token}"
-        email_sent = self._send_once(
+        email_sent = self.send_initial_invitation(invitation, data, guest_url) if send_email else None
+        return invitation, guest_url, host_url, email_sent
+
+    def send_initial_invitation(self, invitation: Invitation, data: InvitationCreate, guest_url: str) -> bool:
+        return self._send_once(
             invitation,
             "invitation_sent",
             "invitation",
             data.guest_email,
-            lambda: self.email.invitation(data.guest_email, data.guest_name, data.host_name, guest_url, data.personal_note),
+            lambda: self.email.invitation(
+                data.guest_email,
+                data.guest_name,
+                data.host_name,
+                guest_url,
+                data.personal_note,
+            ),
         )
-        return invitation, guest_url, host_url, email_sent
 
     def authorize(self, token: str, role: Role, with_proposals: bool = False) -> Invitation:
         field = Invitation.guest_token_hash if role == Role.guest else Invitation.host_token_hash
