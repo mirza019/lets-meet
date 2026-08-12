@@ -27,7 +27,7 @@ export function Confirmed({ role }: { role: "host" | "guest" }) {
     <Shell privatePage wallpaper="meet">
       <section className="card">
         <div className="confetti">🤝✨</div>
-        <p className="eyebrow">Unofficial date-ish plan confirmed</p>
+        <p className="eyebrow">Suspiciously cute plan confirmed</p>
         <h1 className="title">THE ALIBI IS READY</h1>
         <p className="subtitle">
           {guest} ✅<br />

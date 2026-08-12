@@ -98,7 +98,7 @@ export function GuestInvite() {
         <p className="eyebrow">A private invitation</p>
         <h1 className="title">Hey {guest} 👀</h1>
         <p className="subtitle">
-          Fancy an unofficial little date-ish meetup with <strong>{host}</strong>?
+          Fancy a suspiciously fun little meetup with <strong>{host}</strong>?
           <br />
           <br />
           Not a romantic declaration—just two people, one suspicious calendar,

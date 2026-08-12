@@ -110,8 +110,8 @@ export function Home() {
               <span style={{ color: "var(--coral)" }}>interesting.</span>
             </h1>
             <p className="subtitle">
-              Invite someone to build a cheeky little unofficial date-ish meetup
-              for you. They choose the plan; you review it and act very normal. 👀
+              Invite someone to build a suspiciously cute two-person meetup for
+              you. They choose the plan; you review it and act very normal. 👀
             </p>
             <aside className="how-it-works" aria-label="How Let's Meet works">
               <strong>Someone wants to meet you? Here’s the plot:</strong>

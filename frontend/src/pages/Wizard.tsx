@@ -122,7 +122,7 @@ export function Wizard() {
     <Shell privatePage wallpaper="planning">
       <section className="card">
         <p className="eyebrow">
-          Fixing an unofficial date-ish situation · {index + 1}/{steps.length}
+          Planning suspiciously cute trouble · {index + 1}/{steps.length}
         </p>
         <div className="progress">
           <span style={{ width: `${((index + 1) / steps.length) * 100}%` }} />
@@ -282,7 +282,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          How long should the fun last? Be generous-ish. 😌
+          How long does {host} get? Be generous-ish. 😌
         </h1>
         <div className="field">
           <label>Choose duration</label>
@@ -311,7 +311,7 @@ function StepView({
   if (step === "activity")
     return (
       <>
-        <h1 className="title">What kind of unofficial date-ish chaos is this? 👀</h1>
+        <h1 className="title">What kind of trouble are you planning for {host}? 👀</h1>
         <p className="subtitle">
           Pick every suspiciously cute idea you like. Changed your mind? Tap it again to unselect.
         </p>
@@ -349,13 +349,13 @@ function StepView({
     if (!food)
       return (
         <>
-          <h1 className="title">Food can wait.</h1>
-          <p className="subtitle">A bold choice. We respect it.</p>
+          <h1 className="title">No snacks for {host}? Bold. 👀</h1>
+          <p className="subtitle">A fearless choice. We respect the confidence.</p>
         </>
       );
     return (
       <>
-        <h1 className="title">Important business: what are we eating? 🍜</h1>
+        <h1 className="title">Important business: what are you feeding {host}? 🍜</h1>
         {draft.meeting_time && (
           <p className="subtitle">
             Based on {draft.meeting_time}, <strong>{draft.meal_type}</strong> is
@@ -578,7 +578,7 @@ function StepView({
     return (
       <>
         <h1 className="title">
-          How much human interaction on the meeting day? 😂
+          What vibe are you bringing for {host}? 😂
         </h1>
         <div className="choices">
           {options[step].map(([v, l]) => (
@@ -626,7 +626,7 @@ function StepView({
     );
   return (
     <>
-      <h1 className="title">The unofficial date survived dinner. What’s next? 👀</h1>
+      <h1 className="title">{host} survived the food mission. What’s next? 👀</h1>
       <p className="subtitle">Tap to add. Tap again to remove. Commitment level: snack-sized.</p>
       <div className="choices">
         {extraActivities.map((v) => (
