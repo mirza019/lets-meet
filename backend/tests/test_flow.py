@@ -7,6 +7,28 @@ from app.models import Acceptance, Invitation, PushSubscription
 from app.security.tokens import hash_token
 
 
+def test_invitation_survives_email_delivery_failure(client, monkeypatch):
+    from app.email.service import ConsoleEmailProvider
+
+    def fail(*args, **kwargs):
+        raise RuntimeError("temporary SMTP outage")
+
+    monkeypatch.setattr(ConsoleEmailProvider, "send", fail)
+    response = client.post(
+        "/api/invitations",
+        json={
+            "host_name": "Alex",
+            "host_email": "alex@example.com",
+            "guest_name": "Jamie",
+            "guest_email": "jamie@example.com",
+        },
+    )
+    assert response.status_code == 201
+    assert response.json()["email_delivery"] == "failed"
+    guest_token = response.json()["guest_url"].rsplit("/", 1)[-1]
+    assert client.get(f"/api/invitations/guest/{guest_token}").status_code == 200
+
+
 def test_invitation_hides_tokens_and_roles_are_separate(client, invite):
     guest, host = invite
     assert client.get(f"/api/invitations/guest/{guest}").status_code == 200

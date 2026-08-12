@@ -76,12 +76,12 @@ def unsubscribe_push(
 
 @router.post("/invitations", response_model=InvitationCreated, status_code=201, dependencies=[Depends(limited)])
 def create_invitation(data: InvitationCreate, svc: InvitationService = Depends(service)):
-    invitation, guest_url, host_url = svc.create(data)
-    delivery = svc.email.delivery_mode
+    invitation, guest_url, host_url, email_sent = svc.create(data)
+    delivery = svc.email.delivery_mode if email_sent else "failed"
     message = (
         f"Invitation sent to {invitation.guest_name} 💌"
         if delivery == "sent"
-        else "Invitation created — email preview printed to the backend console."
+        else "Invitation created. Copy and share the private guest link."
     )
     return InvitationCreated(
         message=message,

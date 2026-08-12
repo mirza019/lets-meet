@@ -16,7 +16,7 @@ export function Home() {
   const [result, setResult] = useState<{
     host_url: string;
     guest_url: string;
-    email_delivery: "sent" | "console";
+    email_delivery: "sent" | "console" | "failed";
   }>();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -59,11 +59,11 @@ export function Home() {
                 ? "Invitation sent"
                 : "Invitation ready"}
             </h1>
-            {result.email_delivery === "console" ? (
+            {result.email_delivery !== "sent" ? (
               <div className="note" role="status">
-                Development email mode is active, so no real email was sent. The
-                email preview was printed in the backend terminal. Copy the
-                guest link below, or configure Resend for delivery.
+                {result.email_delivery === "failed"
+                  ? "The invitation is safely created, but email delivery had a temporary problem. Copy and send the guest link below—the plan still works perfectly."
+                  : "Development email mode is active, so no real email was sent. Copy the guest link below."}
               </div>
             ) : (
               <p className="subtitle">

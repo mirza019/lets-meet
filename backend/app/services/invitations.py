@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import logging
 
 from fastapi import HTTPException
 from sqlalchemy import select
@@ -12,6 +13,8 @@ from app.models import Acceptance, EmailEvent, Invitation, MeetMemory, Proposal,
 from app.schemas.api import InvitationCreate, MemoryInput, ProposalInput
 from app.security.tokens import create_token, decrypt_token, encrypt_token, hash_token
 from app.services.push import PushService
+
+logger = logging.getLogger(__name__)
 
 
 class InvitationService:
@@ -34,14 +37,14 @@ class InvitationService:
         self.db.commit()
         guest_url = f"{self.settings.frontend_base_url}/invite/{guest_token}"
         host_url = f"{self.settings.frontend_base_url}/respond/{host_token}"
-        self._send_once(
+        email_sent = self._send_once(
             invitation,
             "invitation_sent",
             "invitation",
             data.guest_email,
             lambda: self.email.invitation(data.guest_email, data.guest_name, data.host_name, guest_url, data.personal_note),
         )
-        return invitation, guest_url, host_url
+        return invitation, guest_url, host_url, email_sent
 
     def authorize(self, token: str, role: Role, with_proposals: bool = False) -> Invitation:
         field = Invitation.guest_token_hash if role == Role.guest else Invitation.host_token_hash
@@ -271,9 +274,16 @@ class InvitationService:
         self.db.commit()
         return item
 
-    def _send_once(self, invitation: Invitation, event: str, key: str, recipient: str, send) -> None:
+    def _send_once(self, invitation: Invitation, event: str, key: str, recipient: str, send) -> bool:
         if self.db.scalar(select(EmailEvent).where(EmailEvent.invitation_id == invitation.id, EmailEvent.idempotency_key == key)):
-            return
-        send()
+            return True
+        try:
+            send()
+        except Exception:
+            # Email must never roll back or hide a successfully saved meetup.
+            # The private links remain usable and can be copied manually.
+            logger.exception("Email delivery failed event=%s invitation_id=%s", event, invitation.id)
+            return False
         self.db.add(EmailEvent(invitation_id=invitation.id, event_type=event, idempotency_key=key, recipient=recipient))
         self.db.commit()
+        return True
