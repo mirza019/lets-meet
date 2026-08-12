@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { api } from "../api/client";
 import { copy } from "../content/copy";
 import { useInvitation } from "../hooks/useInvitation";
 import { Shell } from "../layouts/Shell";
@@ -41,6 +42,10 @@ export function GuestInvite() {
       });
       setNoVisible(true);
     }, 160);
+  }
+  async function declineForReal() {
+    await api.decline(guestToken);
+    reload();
   }
   if (error)
     return (
@@ -131,15 +136,29 @@ export function GuestInvite() {
           )}
         </div>
         {tries > 0 && (
-          <p
+          <div
             aria-live="polite"
             className={tries >= 6 ? "note final-no-message" : "muted"}
             style={{ minHeight: 24, textAlign: "center" }}
           >
-            {tries >= 6
-              ? `Okay ${guest}, the NO button has retired dramatically. If you truly mean no, you can close this page—zero pressure, zero drama. 🙂`
-              : copy.noMessages[(tries - 1) % copy.noMessages.length]}
-          </p>
+            {tries >= 6 ? (
+              <>
+                <strong>
+                  Sorry {guest}, the NO button has resigned. You have no choice
+                  now—you’ll have to meet {host}. Try not to look too excited. 👀😂
+                </strong>
+                <br />
+                <button
+                  className="btn ghost"
+                  onClick={declineForReal}
+                >
+                  OKAY, RELEASE ME 😂
+                </button>
+              </>
+            ) : (
+              copy.noMessages[(tries - 1) % copy.noMessages.length]
+            )}
+          </div>
         )}
       </motion.section>
     </Shell>

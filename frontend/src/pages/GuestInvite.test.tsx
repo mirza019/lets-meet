@@ -4,7 +4,9 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { vi } from "vitest";
 import { api } from "../api/client";
 import { GuestInvite } from "./GuestInvite";
-vi.mock("../api/client", () => ({ api: { get: vi.fn() } }));
+vi.mock("../api/client", () => ({
+  api: { get: vi.fn(), decline: vi.fn().mockResolvedValue(undefined) },
+}));
 test("renders nicknames and retires the no button after six playful escapes", async () => {
   vi.mocked(api.get).mockResolvedValue({
     host_name: "Alex",
@@ -38,7 +40,11 @@ test("renders nicknames and retires the no button after six playful escapes", as
   }
   await user.click(no);
   expect(
-    await screen.findByText(/zero pressure, zero drama/i),
+    await screen.findByText(/you have no choice now—you’ll have to meet Buddy/i),
   ).toBeInTheDocument();
   expect(screen.queryByRole("button", { name: "NO 🙄" })).toBeNull();
+  await user.click(screen.getByRole("button", { name: "OKAY, RELEASE ME 😂" }));
+  expect(api.decline).toHaveBeenCalledWith(
+    "test_token_that_matches_a_real_private_link_123",
+  );
 });
