@@ -1,9 +1,14 @@
 import { AxiosError } from "axios";
 import { describe, expect, it } from "vitest";
 
-import { apiErrorMessage, client } from "./client";
+import { apiErrorMessage, chooseApiBaseUrl, client } from "./client";
 
 describe("API reliability", () => {
+  it("never sends a production browser to a configured localhost API", () => {
+    expect(chooseApiBaseUrl("lets-meet.example", "http://localhost:8000")).toBe("");
+    expect(chooseApiBaseUrl("localhost", "http://localhost:8000")).toBe("http://localhost:8000");
+  });
+
   it("keeps the browser timeout above the SMTP timeout", () => {
     expect(client.defaults.timeout).toBeGreaterThan(30_000);
   });

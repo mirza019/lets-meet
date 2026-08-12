@@ -1,9 +1,15 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { Draft, Invitation, Proposal } from "../types";
 
-const apiBaseUrl =
-  import.meta.env.VITE_API_BASE_URL ??
-  "";
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() ?? "";
+
+export function chooseApiBaseUrl(hostname: string, configured: string): string {
+  return ["localhost", "127.0.0.1"].includes(hostname) ? configured : "";
+}
+
+// A developer's local .env must never make the deployed site call localhost
+// on a visitor's device. Production uses the same Azure origin for UI + API.
+const apiBaseUrl = chooseApiBaseUrl(window.location.hostname, configuredApiBaseUrl);
 
 type RetryableRequest = InternalAxiosRequestConfig & { _retryCount?: number };
 
