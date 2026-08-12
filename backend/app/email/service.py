@@ -79,9 +79,9 @@ class EmailService:
         text = (
             f"Hey {guest},\n\n"
             f"{host} sent you a private Let's Meet invitation.\n\n"
-            "Wanna meet me? Apparently you're fun enough to earn a spot on my calendar—"
-            "don't let it go to your head. Open the link, choose a day, and suggest "
-            f"something fun. No pressure, just a little scheduling mischief.{personal_note}\n\n"
+            "Wanna meet me? You have officially been trusted with a tiny piece of my calendar—"
+            "try not to let the power go to your head. Open the link, choose a day, plan "
+            f"something fun, and make a strong case for snacks.{personal_note}\n\n"
             f"— {host}\n\n"
             f"View invitation: {url}\n\n"
             f"This message was sent because {host} entered your email in Let's Meet. "
@@ -110,7 +110,7 @@ class EmailService:
 
     def confirmation(self, to: str, first: str, second: str, url: str, plan_details: str) -> None:
         text = (
-            f"{first} + {second}: the meetup is confirmed. Try to act normal about it.\n\n"
+            f"{first} + {second}: the meetup is confirmed. Calendar secured—try to act casual.\n\n"
             f"Here is the agreed plan for your records:\n\n{plan_details}\n\n"
             f"View the private plan: {url}"
         )

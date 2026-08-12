@@ -37,8 +37,8 @@ def test_invitation_email_speaks_in_the_senders_voice():
     assert sent["subject"] == "Alex sent you a Let's Meet invitation"
     assert "Hey Jamie" in sent["text"]
     assert "Wanna meet me?" in sent["text"]
-    assert "fun enough to earn a spot on my calendar" in sent["text"]
-    assert "scheduling mischief" in sent["text"]
+    assert "trusted with a tiny piece of my calendar" in sent["text"]
+    assert "make a strong case for snacks" in sent["text"]
     assert "— Alex" in sent["text"]
     assert "View invitation" in sent["html"]
 

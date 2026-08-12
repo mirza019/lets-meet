@@ -111,17 +111,18 @@ export function Home() {
               <span style={{ color: "var(--coral)" }}>interesting.</span>
             </h1>
             <p className="subtitle">
-              Invite someone to build a suspiciously cute two-person meetup for
-              you. They choose the plan; you review it and act very normal. 👀
+              Someone has been looking for an excuse to see you. Give them the
+              planning power; you keep final approval and full judging rights
+              over their snack choices. 👀
             </p>
             <aside className="how-it-works" aria-label="How Let's Meet works">
-              <strong>Someone wants to meet you? Here’s the plot:</strong>
+              <strong>Someone wants your time? Make them earn it. 👀</strong>
               <ol>
                 <li>
-                  Enter your name and the name of the person who wants to meet you.
+                  Add your details and the name of your suspiciously eager planner.
                 </li>
-                <li>They receive a private link and build the meetup plan.</li>
-                <li>You get their plan, review it, and approve the final meetup.</li>
+                <li>They get a private link and build their best meetup pitch.</li>
+                <li>You review the evidence and give the final verdict.</li>
               </ol>
             </aside>
             <form className="stack" onSubmit={submit}>
@@ -194,7 +195,7 @@ export function Home() {
                 <textarea
                   value={form.personal_note}
                   onChange={(e) => change("personal_note", e.target.value)}
-                  placeholder="I have a suspiciously important question for you."
+                  placeholder="Clear a tiny corner of your calendar. I have plans for it. 👀"
                 />
               </div>
               {error && <div className="error">{error}</div>}

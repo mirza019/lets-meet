@@ -96,11 +96,12 @@ export function GuestInvite() {
         <p className="eyebrow">A private invitation</p>
         <h1 className="title">Hey {guest} 👀</h1>
         <p className="subtitle">
-          Fancy a suspiciously fun little meetup with <strong>{host}</strong>?
+          <strong>{host}</strong> has been looking for a suspiciously good excuse
+          to steal a little space on your calendar.
           <br />
           <br />
-          Not a romantic declaration—just two people, one suspicious calendar,
-          and enough playful tension to make choosing snacks unnecessarily serious. 👀
+          You choose the plan, inspect the snack situation, and try not to enjoy
+          being this in demand. 👀
         </p>
         {data.personal_note && (
           <blockquote className="note">“{data.personal_note}”</blockquote>

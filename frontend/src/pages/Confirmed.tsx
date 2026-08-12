@@ -34,14 +34,15 @@ export function Confirmed({ role }: { role: "host" | "guest" }) {
           {guest} ✅<br />
           {host} ✅<br />
           <br />
-          Against all odds, two people successfully agreed on something. 😂
+          {guest} and {host} agreed on a plan. Suspiciously efficient—and a
+          little cute. 😂
         </p>
         <PushNotifications role={role} token={token} />
         {data.current_proposal && (
           <PlanCard plan={data.current_proposal} invite={data} />
         )}
         <p className="muted">
-          Officially a meetup. Unofficially, a very cute logistical victory. 👀
+          Calendar secured. Snack expectations raised. Try to act casual. 👀
         </p>
         <div className="stack">
           <Link
